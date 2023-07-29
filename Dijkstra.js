@@ -6,6 +6,8 @@ var distanceList = {
     "nodeE": 9999
 }
 
+var queue = [];
+
 // need to change this to priority queue 
 
 class Queue {
@@ -67,10 +69,20 @@ function dijkstraAlgorithm(startNode) {
         let linkValue = startNode.links[i];
         if (valueOfNode + linkValue < distanceList[childNode.name]) {
             distanceList[childNode.name] = valueOfNode + linkValue;
+            queue.push(childNode);
         }
-        
 
-
+    }
+    
+    if (queue.length > 0) {
+        var map = queue.map(x => distanceList[x.name]);
+        var minValue = Math.min(...map);
+        var minIndex = map.indexOf(minValue);
+        console.log(queue);
+        let tempNode = queue[minIndex];
+        queue.splice(minIndex, 1);
+        console.log(tempNode);
+        dijkstraAlgorithm(tempNode);
     }
 
     console.log(distanceList);
